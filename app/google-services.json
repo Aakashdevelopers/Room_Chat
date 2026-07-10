@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1046922122069",
+    "firebase_url": "https://sports-bet-cb7e6-default-rtdb.firebaseio.com",
+    "project_id": "sports-bet-cb7e6",
+    "storage_bucket": "sports-bet-cb7e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046922122069:android:7f94f37428c9ba8b6b15dc",
+        "android_client_info": {
+          "package_name": "com.SportsBet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046922122069-ivupev8q7ufu7ndg7ge7tkv340e4om1d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM6uq0iKM0DoTyFtr7z7vSE2JgQFUPq5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046922122069-ivupev8q7ufu7ndg7ge7tkv340e4om1d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046922122069:android:e359e948ff7cca2c6b15dc",
+        "android_client_info": {
+          "package_name": "com.roomchatapp.amstudio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046922122069-ivupev8q7ufu7ndg7ge7tkv340e4om1d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM6uq0iKM0DoTyFtr7z7vSE2JgQFUPq5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046922122069-ivupev8q7ufu7ndg7ge7tkv340e4om1d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

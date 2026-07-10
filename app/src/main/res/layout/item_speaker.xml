@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <!-- Speaking Ring Animation Placeholder -->
+    <FrameLayout
+        android:id="@+id/avatarContainer"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Circular Avatar -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivSpeakerProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo_placeholder"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:strokeColor="@color/glass_white"
+            app:strokeWidth="2dp" />
+
+        <!-- Speaking indicator (visible when talking) -->
+        <View
+            android:id="@+id/speakingIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- Host Badge -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/hostBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:cardBackgroundColor="#2196F3"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/avatarContainer"
+        app:layout_constraintEnd_toEndOf="@+id/avatarContainer"
+        app:layout_constraintStart_toStartOf="@+id/avatarContainer"
+        app:layout_constraintTop_toTopOf="@+id/avatarContainer">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="1dp"
+            android:text="HOST"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Mic Status Icon -->
+    <ImageView
+        android:id="@+id/ivMicStatus"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:elevation="4dp"
+        android:padding="3dp"
+        android:src="@android:drawable/ic_btn_speak_now"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarContainer"
+        app:layout_constraintEnd_toEndOf="@+id/avatarContainer"
+        app:tint="#4CAF50" />
+
+    <!-- Username -->
+    <TextView
+        android:id="@+id/tvSpeakerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="Username"
+        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
