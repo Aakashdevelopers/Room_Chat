@@ -24,5 +24,5 @@ dependencyResolutionManagement {
         maven { url = uri("https://maven.zego.im") }
     }
 }
-rootProject.name = "Room Chat"
+rootProject.name = "VOXORA"
 include(":app")

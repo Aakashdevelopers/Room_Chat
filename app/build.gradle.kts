@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.roomchatapp.amstudio"
+    namespace = "com.roomchatapps.amstudio"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.roomchatapp.amstudio"
+        applicationId = "com.roomchatapps.amstudio"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
@@ -16,6 +16,7 @@ android {
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildFeatures {
@@ -64,6 +65,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("im.zego:zego_uikit_prebuilt_live_audio_room_android:+")
     implementation("androidx.core:core-ktx:1.17.0")
+    implementation("com.snap.loginkit:loginkit:2.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)

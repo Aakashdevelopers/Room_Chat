@@ -22,7 +22,7 @@
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        app:layout_constraintBottom_toTopOf="@+id/llFacebook"
+        app:layout_constraintBottom_toTopOf="@+id/llEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
         app:srcCompat="@drawable/app_logo" />
 
     <LinearLayout
-        android:id="@+id/llFacebook"
+        android:id="@+id/llEmail"
         android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
         android:layout_marginStart="@dimen/screen_margin"
@@ -49,12 +49,12 @@
             android:layout_height="25dp"
             android:layout_marginEnd="10dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/facebook" />
+            app:srcCompat="@drawable/baseline_email_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Facebook"
+            android:text="Continue With Email"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -100,23 +100,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/llTermsAndPrivacy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:id="@+id/ivEmail"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginEnd="24dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/email_logo" />
-
-        <ImageView
-            android:id="@+id/ivSnapchat"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/snapchat_logo" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <LinearLayout
         android:id="@+id/llTermsAndPrivacy"

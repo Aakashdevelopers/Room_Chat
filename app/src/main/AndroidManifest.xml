@@ -12,6 +12,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <queries>
+        <package android:name="com.snapchat.android" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,17 +23,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomChat">
+        <meta-data
+            android:name="com.snap.kit.clientId"
+            android:value="YOUR_SNAP_CLIENT_ID" />
+        <meta-data
+            android:name="com.snap.kit.redirectUrl"
+            android:value="roomchat://snap-kit/oauth2" />
+        <meta-data
+            android:name="com.snap.kit.scopes"
+            android:resource="@array/snap_connect_scopes" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.snap.corekit.SnapKitActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="snap-kit"
+                    android:path="/oauth2"
+                    android:scheme="roomchat" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.RoomChat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".RoomChatActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|layoutDirection|smallestScreenSize|screenLayout|uiMode|density"
@@ -39,8 +68,15 @@
         <activity android:name=".CreateRoomActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".EmailloginActivity" />
-        <activity android:name=".HomeActivity" />
-
+        <activity
+            android:name=".PostCreateActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".CheckActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

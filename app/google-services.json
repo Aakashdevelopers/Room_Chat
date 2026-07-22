@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1046922122069:android:7f94f37428c9ba8b6b15dc",
+        "mobilesdk_app_id": "1:1046922122069:android:fcfcbc54e12937ca6b15dc",
         "android_client_info": {
           "package_name": "com.SportsBet"
         }
@@ -39,7 +39,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1046922122069:android:e359e948ff7cca2c6b15dc",
         "android_client_info": {
-          "package_name": "com.roomchatapp.amstudio"
+          "package_name": "com.roomchatapps.amstudio"
         }
       },
       "oauth_client": [
