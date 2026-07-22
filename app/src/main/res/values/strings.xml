@@ -17,6 +17,9 @@
     <string name="follow_label">Following</string>
     <string name="fans_count">2.5k</string>
     <string name="fans_label">Followers</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="no_users_found">No users found</string>
     <string name="wallet">Wallet</string>
     <string name="aristocracy">Nobility</string>
     <string name="medal">Medals</string>

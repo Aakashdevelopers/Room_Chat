@@ -74,6 +74,11 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CommentsActivity" />
+        <activity android:name=".FollowListActivity" />
+        <activity android:name=".UserDetailActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".EditProfileActivity" />
         <activity
             android:name=".CheckActivity"
             android:exported="false"

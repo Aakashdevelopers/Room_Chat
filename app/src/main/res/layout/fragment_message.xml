@@ -79,14 +79,14 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/message_home_entry_friend_ic" />
+                            android:src="@drawable/ic_plus_gradient" />
                     </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Requests"
+                        android:text="Create Room"
                         android:textColor="#B3FFFFFF"
                         android:textSize="12sp" />
                 </LinearLayout>

@@ -40,7 +40,7 @@
             android:id="@+id/ivAdd"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/ic_add_box"
+            android:src="@drawable/ic_plus_gradient"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

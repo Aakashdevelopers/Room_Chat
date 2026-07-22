@@ -95,6 +95,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.btnComment.setOnClickListener(openComments);
         holder.commentPreviewLayout.setOnClickListener(openComments);
 
+
+
         // Load Top Comment Preview
         FirebaseDatabase.getInstance().getReference("Comments").child(post.getPostId())
                 .limitToLast(1)
@@ -158,6 +160,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
+
+        holder.ivUserProfile.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, UserDetailActivity.class);
+            intent.putExtra("uid", post.getUid());
+            context.startActivity(intent);
+        });
+
+        holder.tvUsername.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(context, UserDetailActivity.class);
+            intent.putExtra("uid", post.getUid());
+            context.startActivity(intent);
+        });
 
         // Handle Follow System
         if (post.getUid().equals(currentUid)) {
@@ -230,7 +244,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         ImageView ivUserProfile, ivPostImage, ivLikeIcon;
         TextView tvUsername, tvPostTime, tvPostContent, tvLikeCount, tvCommentCount, tvTopComment, tvUserFollowers;
-        View btnLike, btnComment, commentPreviewLayout;
+        View btnLike, btnComment, btnMessage, commentPreviewLayout;
         android.widget.Button btnFollow;
 
         public PostViewHolder(@NonNull View itemView) {
@@ -244,6 +258,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
             ivLikeIcon = itemView.findViewById(R.id.ivLikeIcon);
             btnComment = itemView.findViewById(R.id.btnComment);
+            btnMessage = itemView.findViewById(R.id.btnMessage);
             tvCommentCount = itemView.findViewById(R.id.tvCommentCount);
             tvTopComment = itemView.findViewById(R.id.tvTopComment);
             commentPreviewLayout = itemView.findViewById(R.id.commentPreviewLayout);

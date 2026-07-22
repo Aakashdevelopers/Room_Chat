@@ -90,49 +90,57 @@
             app:layout_constraintTop_toBottomOf="@+id/profileImage">
 
             <LinearLayout
+                android:id="@+id/layoutFollowers"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/tvFollowCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
-                    android:text="@string/follow_count"
+                    android:text = "0"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/follow_label"
+                    android:text="Followers"
                     android:textColor="#80FFFFFF"
                     android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutFollowing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/tvFansCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
-                    android:text="@string/fans_count"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fans_label"
+                    android:text="Following"
                     android:textColor="#80FFFFFF"
                     android:textSize="12sp" />
             </LinearLayout>
