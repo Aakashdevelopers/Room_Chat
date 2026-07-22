@@ -73,6 +73,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".CommentsActivity" />
         <activity
             android:name=".CheckActivity"
             android:exported="false"

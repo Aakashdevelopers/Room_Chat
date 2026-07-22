@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -85,12 +86,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         // Handle Comments
         holder.tvCommentCount.setText(String.valueOf(post.getCommentCount()));
-        holder.btnComment.setOnClickListener(v -> {
-            if (context instanceof androidx.fragment.app.FragmentActivity) {
-                CommentBottomSheet bottomSheet = CommentBottomSheet.newInstance(post.getPostId());
-                bottomSheet.show(((androidx.fragment.app.FragmentActivity) context).getSupportFragmentManager(), "CommentBottomSheet");
-            }
-        });
+        View.OnClickListener openComments = v -> {
+            android.content.Intent intent = new android.content.Intent(context, CommentsActivity.class);
+            intent.putExtra("postId", post.getPostId());
+            context.startActivity(intent);
+        };
+        
+        holder.btnComment.setOnClickListener(openComments);
+        holder.commentPreviewLayout.setOnClickListener(openComments);
 
         // Load Top Comment Preview
         FirebaseDatabase.getInstance().getReference("Comments").child(post.getPostId())
@@ -104,7 +107,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 Comment comment = data.getValue(Comment.class);
                                 if (comment != null) {
                                     // Fetch username for the comment
-                                    FirebaseDatabase.getInstance().getReference("Users").child(comment.getUid())
+                                    FirebaseDatabase.getInstance().getReference("users").child(comment.getUid())
                                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot userSnapshot) {
@@ -136,14 +139,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         // Fetch User Info
-        FirebaseDatabase.getInstance().getReference("Users").child(post.getUid())
+        FirebaseDatabase.getInstance().getReference("users").child(post.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             String name = snapshot.child("name").getValue(String.class);
-                            String profile = snapshot.child("profile").getValue(String.class);
-                            
+                            String profile = snapshot.child("avtar").getValue(String.class);
+
                             holder.tvUsername.setText(name);
                             Glide.with(context)
                                     .load(profile)
@@ -155,6 +158,68 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
+
+        // Handle Follow System
+        if (post.getUid().equals(currentUid)) {
+            holder.btnFollow.setVisibility(View.GONE);
+        } else {
+            holder.btnFollow.setVisibility(View.VISIBLE);
+            
+            // Fetch User Stats (Followers count)
+            FirebaseDatabase.getInstance().getReference("Follow")
+                    .child(post.getUid()).child("followers")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            holder.tvUserFollowers.setText(snapshot.getChildrenCount() + " followers");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
+
+            DatabaseReference followRef = FirebaseDatabase.getInstance().getReference("Follow")
+                    .child(currentUid).child("following");
+            
+            followRef.child(post.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        holder.btnFollow.setText("Following");
+                        holder.btnFollow.setAlpha(0.6f);
+                    } else {
+                        holder.btnFollow.setText("Follow");
+                        holder.btnFollow.setAlpha(1.0f);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+
+            holder.btnFollow.setOnClickListener(v -> {
+                DatabaseReference followingRef = FirebaseDatabase.getInstance().getReference("Follow")
+                        .child(currentUid).child("following").child(post.getUid());
+                DatabaseReference followersRef = FirebaseDatabase.getInstance().getReference("Follow")
+                        .child(post.getUid()).child("followers").child(currentUid);
+
+                followingRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            followingRef.removeValue();
+                            followersRef.removeValue();
+                        } else {
+                            followingRef.setValue(true);
+                            followersRef.setValue(true);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
+            });
+        }
     }
 
     @Override
@@ -164,8 +229,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         ImageView ivUserProfile, ivPostImage, ivLikeIcon;
-        TextView tvUsername, tvPostTime, tvPostContent, tvLikeCount, tvCommentCount, tvTopComment;
+        TextView tvUsername, tvPostTime, tvPostContent, tvLikeCount, tvCommentCount, tvTopComment, tvUserFollowers;
         View btnLike, btnComment, commentPreviewLayout;
+        android.widget.Button btnFollow;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -181,6 +247,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             tvCommentCount = itemView.findViewById(R.id.tvCommentCount);
             tvTopComment = itemView.findViewById(R.id.tvTopComment);
             commentPreviewLayout = itemView.findViewById(R.id.commentPreviewLayout);
+            btnFollow = itemView.findViewById(R.id.btnFollow);
+            tvUserFollowers = itemView.findViewById(R.id.tvUserFollowers);
         }
     }
 }

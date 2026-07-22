@@ -39,6 +39,19 @@
             app:layout_constraintStart_toEndOf="@+id/ivUserProfile"
             app:layout_constraintTop_toTopOf="@+id/ivUserProfile" />
 
+        <TextView
+            android:id="@+id/tvUserFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="0 followers"
+            android:textColor="#80FFFFFF"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvUsername"
+            app:layout_constraintStart_toEndOf="@+id/ivBadge"
+            app:layout_constraintTop_toTopOf="@+id/tvUsername" />
+
         <ImageView
             android:id="@+id/ivBadge"
             android:layout_width="14dp"

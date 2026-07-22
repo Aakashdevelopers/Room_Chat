@@ -2,23 +2,26 @@ package com.roomchatapps.amstudio;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.roomchatapps.amstudio.databinding.LayoutCommentBottomSheetBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,54 +29,56 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CommentBottomSheet extends BottomSheetDialogFragment {
+public class CommentsActivity extends AppCompatActivity {
 
     private String postId;
-    private LayoutCommentBottomSheetBinding binding;
+    private RecyclerView rvComments;
+    private EditText etComment;
+    private ImageView btnSendComment, btnBack;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
     private DatabaseReference commentsRef;
 
-    public static CommentBottomSheet newInstance(String postId) {
-        CommentBottomSheet fragment = new CommentBottomSheet();
-        Bundle args = new Bundle();
-        args.putString("postId", postId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            postId = getArguments().getString("postId");
+        setContentView(R.layout.activity_comments);
+        View mainView = findViewById(android.R.id.content);
+        if (mainView != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                // We might not want padding on the whole content for EdgeToEdge
+                // But we should ensure bottom navigation is not covered
+                return insets;
+            });
         }
-    }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = LayoutCommentBottomSheetBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
+        postId = getIntent().getStringExtra("postId");
+        if (postId == null) {
+            finish();
+            return;
+        }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        rvComments = findViewById(R.id.rvComments);
+        etComment = findViewById(R.id.etComment);
+        btnSendComment = findViewById(R.id.btnSendComment);
+        btnBack = findViewById(R.id.btnBack);
 
         commentsRef = FirebaseDatabase.getInstance().getReference("Comments").child(postId);
+        
+        btnBack.setOnClickListener(v -> finish());
         
         setupRecyclerView();
         loadComments();
 
-        binding.btnSendComment.setOnClickListener(v -> sendComment());
+        btnSendComment.setOnClickListener(v -> sendComment());
     }
 
     private void setupRecyclerView() {
         commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(requireContext(), commentList);
-        binding.rvComments.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.rvComments.setAdapter(commentAdapter);
+        commentAdapter = new CommentAdapter(this, commentList);
+        rvComments.setLayoutManager(new LinearLayoutManager(this));
+        rvComments.setAdapter(commentAdapter);
     }
 
     private void loadComments() {
@@ -87,7 +92,7 @@ public class CommentBottomSheet extends BottomSheetDialogFragment {
                         if (comment.getCommentId() == null) {
                             comment.setCommentId(data.getKey());
                         }
-                        commentList.add(0, comment); // Add newest comments at the top
+                        commentList.add(0, comment); // Newest at top
                     }
                 }
                 commentAdapter.notifyDataSetChanged();
@@ -99,14 +104,14 @@ public class CommentBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void sendComment() {
-        String text = binding.etComment.getText().toString().trim();
+        String text = etComment.getText().toString().trim();
         if (TextUtils.isEmpty(text)) {
             return;
         }
 
         String uid = FirebaseAuth.getInstance().getUid();
         if (uid == null) {
-            Toast.makeText(getContext(), "Please login to comment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please login to comment", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -117,14 +122,19 @@ public class CommentBottomSheet extends BottomSheetDialogFragment {
         if (commentId != null) {
             commentsRef.child(commentId).setValue(comment).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    binding.etComment.setText("");
+                    etComment.setText("");
                     // Update comment count in Post
                     FirebaseDatabase.getInstance().getReference("Posts").child(postId).child("commentCount").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             long count = 0;
-                            if (snapshot.exists()) {
-                                count = (long) snapshot.getValue();
+                            if (snapshot.exists() && snapshot.getValue() != null) {
+                                try {
+                                    count = (long) snapshot.getValue();
+                                } catch (Exception e) {
+                                    // Handle cases where it might be stored as String or Integer
+                                    count = Long.parseLong(String.valueOf(snapshot.getValue()));
+                                }
                             }
                             snapshot.getRef().setValue(count + 1);
                         }
@@ -135,11 +145,5 @@ public class CommentBottomSheet extends BottomSheetDialogFragment {
                 }
             });
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

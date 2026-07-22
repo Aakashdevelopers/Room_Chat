@@ -41,13 +41,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.tvCommentText.setText(comment.getText());
         holder.tvCommentTime.setText(comment.getTimestamp());
 
-        FirebaseDatabase.getInstance().getReference("Users").child(comment.getUid())
+        FirebaseDatabase.getInstance().getReference("users").child(comment.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             String name = snapshot.child("name").getValue(String.class);
-                            String profile = snapshot.child("profile").getValue(String.class);
+                            String profile = snapshot.child("avtar").getValue(String.class);
                             holder.tvCommentUsername.setText(name);
                             Glide.with(context).load(profile).placeholder(R.drawable.common_default_avatar_ic).into(holder.ivCommentUser);
                         }
